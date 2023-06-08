@@ -26,7 +26,7 @@ export default api(
             try {
               user = await db.user.findFirstOrThrow({
                 where: {
-                  email: profile._json.email,
+                  handle: profile._json.login,
                 },
               })
             } catch (e) {
@@ -34,6 +34,7 @@ export default api(
               user = await db.user.create({
                 data: {
                   name: profile.displayName,
+                  handle: profile._json.login,
                   email: profile._json.email,
                   avatar: profile._json.avatar_url,
                 },

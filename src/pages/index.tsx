@@ -5,6 +5,9 @@ import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
+import { GlobalRole } from "../../db"
+import { Button, ButtonGroup } from "@primer/react"
+import styles from "src/styles/Home.module.css"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -30,9 +33,6 @@ const UserInfo = () => {
   } else {
     return (
       <>
-        <Link href={Routes.SignupPage()}>
-          <strong>Sign Up</strong>
-        </Link>
         <Link href="api/auth/github">
           <strong>Login</strong>
         </Link>
@@ -44,10 +44,18 @@ const UserInfo = () => {
 const AddActivity = () => {
   const currentUser = useCurrentUser()
 
-  if (currentUser) {
-    return <>TEST</>
+  if (currentUser?.role == ("USER" as GlobalRole)) {
+    return (
+      <>
+        <ButtonGroup>
+          <Button>Button 1</Button>
+          <Button>Button 2</Button>
+          <Button>Button 3</Button>
+        </ButtonGroup>
+      </>
+    )
   } else {
-    return <>Please log in to add activities.</>
+    return <>You do not have sufficient permissions.</>
   }
 }
 
