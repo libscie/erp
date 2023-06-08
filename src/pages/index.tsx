@@ -1,13 +1,12 @@
-import { Suspense, useState } from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
-import { Routes, BlitzPage } from "@blitzjs/next"
+import { BlitzPage } from "@blitzjs/next"
 import { GlobalRole } from "../../db"
 import { Button, ButtonGroup } from "@primer/react"
-import styles from "src/styles/Home.module.css"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
