@@ -6,6 +6,8 @@ import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
+import { ActionList, ActionMenu, Box, StyledOcticon, TreeView } from "@primer/react"
+import { DiffAddedIcon, DiffModifiedIcon, FileIcon } from "@primer/octicons-react"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -59,6 +61,55 @@ const Home: BlitzPage = () => {
             <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
           </p>
         </div>
+        <Box sx={{ maxWidth: 400 }}>
+          <nav aria-label="Files">
+            <TreeView aria-label="Files">
+              <TreeView.Item id="src">
+                <TreeView.LeadingVisual>
+                  <TreeView.DirectoryIcon />
+                </TreeView.LeadingVisual>
+                src
+                <TreeView.SubTree>
+                  <TreeView.Item id="src/Avatar.tsx" onSelect={() => console.log("src/Avatar.tsx")}>
+                    <TreeView.LeadingVisual>
+                      <FileIcon />
+                    </TreeView.LeadingVisual>
+                    Avatar.tsx
+                    <TreeView.TrailingVisual>
+                      <StyledOcticon icon={DiffAddedIcon} color="success.fg" aria-label="added" />
+                    </TreeView.TrailingVisual>
+                  </TreeView.Item>
+                  <TreeView.Item id="src/Button.tsx" current>
+                    <TreeView.LeadingVisual>
+                      <FileIcon />
+                    </TreeView.LeadingVisual>
+                    Button.tsx
+                    <TreeView.TrailingVisual>
+                      <StyledOcticon
+                        icon={DiffModifiedIcon}
+                        color="attention.fg"
+                        aria-label="modified"
+                      />
+                    </TreeView.TrailingVisual>
+                  </TreeView.Item>
+                </TreeView.SubTree>
+              </TreeView.Item>
+              <TreeView.Item id="package.json">
+                <TreeView.LeadingVisual>
+                  <FileIcon />
+                </TreeView.LeadingVisual>
+                package.json
+                <TreeView.TrailingVisual>
+                  <StyledOcticon
+                    icon={DiffModifiedIcon}
+                    color="attention.fg"
+                    aria-label="modified"
+                  />
+                </TreeView.TrailingVisual>
+              </TreeView.Item>
+            </TreeView>
+          </nav>
+        </Box>
 
         <main className={styles.main}>
           <div className={styles.wrapper}>
@@ -70,6 +121,21 @@ const Home: BlitzPage = () => {
                   <path d="M42.4727 33.2822H31.7398C27.6555 33.2822 23.8086 31.3626 21.3528 28.0991L10.7656 14.0297C10.5656 13.7638 10.5354 13.4068 10.688 13.1111L16.7908 1.28696C17.0836 0.719654 17.8684 0.652924 18.2528 1.16266L42.4727 33.2822Z"></path>
                 </svg>
               </div>
+              <ActionMenu>
+                <ActionMenu.Button>Menu</ActionMenu.Button>
+
+                <ActionMenu.Overlay>
+                  <ActionList>
+                    <ActionList.Item onSelect={(event) => console.log("New file")}>
+                      New file
+                    </ActionList.Item>
+                    <ActionList.Item>Copy link</ActionList.Item>
+                    <ActionList.Item>Edit file</ActionList.Item>
+                    <ActionList.Divider />
+                    <ActionList.Item variant="danger">Delete file</ActionList.Item>
+                  </ActionList>
+                </ActionMenu.Overlay>
+              </ActionMenu>
 
               <h1>Your database & authentication is ready. Try it by signing up.</h1>
 
