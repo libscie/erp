@@ -25,11 +25,11 @@ model User {
 
   tokens   Token[]
   sessions Session[]
-  Activity Activity[]
 }
 
 enum GlobalRole {
   USER
+  EMPLOYEE
   ADMIN
 }
 
@@ -68,13 +68,15 @@ enum TokenType {
 }
 
 model Activity {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  endDate   DateTime?
-  value     String?
-
-  // add relatedActivities
-  // add authors
-  authors User[]
+  id          Int       @id @default(autoincrement())
+  updatedAt   DateTime  @updatedAt
+  startDate   DateTime  @default(now())
+  endDate     DateTime?
+  title       String?
+  description String?
+  // authors
+  // location
+  // people
+  // notes
+  //
 }
