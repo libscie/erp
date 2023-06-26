@@ -6,7 +6,6 @@ import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
 import { GlobalRole } from "../../db"
-import { Button, ButtonGroup } from "@primer/react"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -44,15 +43,7 @@ const AddActivity = () => {
   const currentUser = useCurrentUser()
 
   if (currentUser?.role == ("USER" as GlobalRole)) {
-    return (
-      <>
-        <ButtonGroup>
-          <Button>Button 1</Button>
-          <Button>Button 2</Button>
-          <Button>Button 3</Button>
-        </ButtonGroup>
-      </>
-    )
+    return <></>
   } else {
     return <>You do not have sufficient permissions.</>
   }
