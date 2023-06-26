@@ -36,6 +36,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-final-form": "6.5.9",
+    "sass": "1.63.6",
     "secure-password": "4.0.0",
     "styled-components": "5.3.11",
     "zod": "3.20.2"
