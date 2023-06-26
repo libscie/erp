@@ -39,6 +39,17 @@ export default api(
                   avatar: profile._json.avatar_url,
                 },
               })
+
+              if (user.id === 1) {
+                console.log("Upgrading first user to ADMIN...")
+
+                await db.user.update({
+                  where: { id: 1 },
+                  data: {
+                    role: "ADMIN",
+                  },
+                })
+              }
             }
 
             return done(null, {
