@@ -1,0 +1,58 @@
+{
+  "$schema": "https://app.flightcontrol.dev/schema.json",
+  "environments": [
+    {
+      "id": "production",
+      "name": "Production",
+      "region": "eu-central-1",
+      "source": {
+        "branch": "main"
+      },
+      "services": [
+        {
+          "id": "libscie-mngr",
+          "name": "LibScie Manager",
+          "type": "fargate",
+          "buildType": "nixpacks",
+          "cpu": 0.25,
+          "memory": 0.5,
+          "domain": "mngr.libscie.org",
+          "minInstances": 1,
+          "maxInstances": 1,
+          "buildCommand": "blitz prisma generate && blitz build && blitz prisma migrate deploy",
+          "startCommand": "blitz start",
+          "enableCloudfrontSwr": true,
+          "envVariables": {
+            "APP_ENV": "production",
+            "APP_ORIGIN": "https://mngr.libscie.org",
+            "DATABASE_URL": {
+              "fromService": {
+                "id": "db",
+                "value": "dbConnectionString"
+              }
+            },
+            "GITHUB_CLIENT_ID": {
+              "fromParameterStore": "GITHUB_CLIENT_ID_MNGR"
+            },
+            "GITHUB_CLIENT_SECRET": {
+              "fromParameterStore": "GITHUB_CLIENT_SECRET_MNGR"
+            },
+            "SESSION_SECRET_KEY": {
+              "fromParameterStore": "SESSION_MNGR"
+            }
+          }
+        },
+        {
+          "id": "db",
+          "name": "Database",
+          "type": "rds",
+          "engine": "postgres",
+          "engineVersion": "13",
+          "instanceSize": "db.t4g.micro",
+          "storage": 20,
+          "private": true
+        }
+      ]
+    }
+  ]
+}
