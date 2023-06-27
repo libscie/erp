@@ -9,14 +9,17 @@ import {
   ModalWrapper,
   DatePicker,
   DatePickerInput,
+  ToastNotification,
 } from "@carbon/react"
 import { Form as FinalForm, Field } from "react-final-form"
+import toast from "react-hot-toast"
 
 const AddActivityForm = () => {
   return (
     <FinalForm
       onSubmit={(values) => {
         console.log(values)
+        toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
       }}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
@@ -25,11 +28,12 @@ const AddActivityForm = () => {
               {(props) => (
                 <>
                   <TextInput
-                    id="123"
-                    helperText="Optional helper text here; if message is more than one line text should wrap (~100 character count maximum)"
+                    id="title"
+                    helperText="At most 50 characters, please. This helps keep it easy to understand."
+                    required
                     invalidText="Invalid error message."
-                    labelText="Activity title"
-                    placeholder="Optional placeholder text"
+                    labelText="What happened?"
+                    placeholder="Provide a descriptive title for this activity."
                     {...props.input}
                   />
                 </>
@@ -45,26 +49,31 @@ const AddActivityForm = () => {
                     invalidText="Invalid error message."
                     labelText="Text area label"
                     placeholder="Optional placeholder text"
-                    rows={4}
+                    rows={12}
                     {...props.input}
                   />
                 </>
               )}
             </Field>
-            <Field name="activityType">
+            <Field name="location">
               {(props) => (
                 <>
-                  <Select
-                    defaultValue="placeholder-item"
-                    id="select-1"
-                    invalidText="This is an invalid error message."
-                    labelText="Select"
+                  <TextInput
+                    id="location"
+                    helperText={
+                      <>
+                        Use{" "}
+                        <a href="https://what3words.com/" target="_blank" rel="noreferrer">
+                          https://what3words.com/
+                        </a>{" "}
+                        to find your location info
+                      </>
+                    }
+                    invalidText="Invalid error message."
+                    labelText="Where did it happen?"
+                    placeholder="Optional location information."
                     {...props.input}
-                  >
-                    <SelectItem text="Option 1" value="option-1" />
-                    <SelectItem text="Option 2" value="option-2" />
-                    <SelectItem text="Option 3" value="option-3" />
-                  </Select>
+                  />
                 </>
               )}
             </Field>
