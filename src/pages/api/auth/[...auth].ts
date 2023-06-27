@@ -59,7 +59,7 @@ export default api(
               },
             })
           }
-        ), // Provide initialized passport strategy here
+        ),
       },
     ],
   }))
