@@ -13,13 +13,34 @@ import {
 } from "@carbon/react"
 import { Form as FinalForm, Field } from "react-final-form"
 import toast from "react-hot-toast"
+import addActivity from "../mutations/addActivity"
+import { useMutation } from "@blitzjs/rpc"
+import { getSession, useSession } from "@blitzjs/auth"
 
 const AddActivityForm = () => {
+  const [newActivity] = useMutation(addActivity)
+  const session = useSession()
+
   return (
     <FinalForm
-      onSubmit={(values) => {
+      onSubmit={async (values) => {
         console.log(values)
-        toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
+        // Not using toast.promise because hard to customise
+        // https://github.com/timolins/react-hot-toast/issues/147
+        try {
+          await newActivity({
+            title: values.title,
+            description: values.description || null,
+            startDate: values.startAndEndDates[0] || null,
+            endDate: values.startAndEndDates[1] || null,
+            location: values.location || null,
+          })
+          toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
+        } catch (e) {
+          toast.custom(
+            <ToastNotification role="status" kind="error" title={`Failed because ${e.message}`} />
+          )
+        }
       }}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>

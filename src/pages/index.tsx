@@ -12,7 +12,7 @@ import AddActivityForm from "../core/components/AddActivityForm"
 const AddActivity = () => {
   const currentUser = useCurrentUser()
 
-  if (currentUser?.role == ("USER" as GlobalRole)) {
+  if (currentUser?.role == ("ADMIN" as GlobalRole)) {
     return <AddActivityForm />
   } else {
     return <>You do not have sufficient permissions.</>
