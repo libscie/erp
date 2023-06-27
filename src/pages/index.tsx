@@ -5,39 +5,8 @@ import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
+import { Button, Tile } from "@carbon/react"
 import { GlobalRole } from "../../db"
-
-const UserInfo = () => {
-  const currentUser = useCurrentUser()
-  const [logoutMutation] = useMutation(logout)
-
-  if (currentUser) {
-    return (
-      <>
-        <button
-          onClick={async () => {
-            await logoutMutation()
-          }}
-        >
-          Logout
-        </button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <Link href="api/auth/github">
-          <strong>Login</strong>
-        </Link>
-      </>
-    )
-  }
-}
 
 const AddActivity = () => {
   const currentUser = useCurrentUser()
@@ -53,17 +22,43 @@ const Home: BlitzPage = () => {
   return (
     <Layout title="Home">
       <main>
-        <nav>
-          <Suspense fallback="Loading...">
-            <UserInfo />
-          </Suspense>
-        </nav>
-        <div>
-          <div>
-            <h1>Everything in one place.</h1>
-            <Suspense fallback="Loading...">
-              <AddActivity />
-            </Suspense>
+        <Suspense fallback="Loading...">
+          <AddActivity />
+        </Suspense>
+
+        <div className="cds--grid">
+          <div className="cds--row">
+            <div className="cds--col">
+              <div className="outside">
+                <div className="inside">
+                  <Tile>Test</Tile>
+                </div>
+              </div>
+            </div>
+            <div className="cds--col">
+              <div className="outside">
+                <div className="inside">
+                  {" "}
+                  <Tile>Test</Tile>
+                </div>
+              </div>
+            </div>
+            <div className="cds--col">
+              <div className="outside">
+                <div className="inside">
+                  {" "}
+                  <Tile>Test</Tile>
+                </div>
+              </div>
+            </div>
+            <div className="cds--col">
+              <div className="outside">
+                <div className="inside">
+                  {" "}
+                  <Tile>Test</Tile>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

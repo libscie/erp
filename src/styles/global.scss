@@ -1,3 +1,9 @@
+@use "@carbon/react";
+@use "@carbon/grid";
+@use "@carbon/layout";
+
+// Emit the flex-grid styles
+@include grid.flex-grid();
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -25,4 +31,9 @@ i {
 
 * {
   box-sizing: border-box;
+}
+
+.cds--header {
+  position: relative;
+  // margin: layout.$spacing-03;
 }
