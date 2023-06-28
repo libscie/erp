@@ -1,13 +1,15 @@
 import { Suspense } from "react"
-import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
-import logout from "src/auth/mutations/logout"
-import { useMutation } from "@blitzjs/rpc"
+import { useQuery } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
-import { Button, Tile } from "@carbon/react"
+import { Tile } from "@carbon/react"
 import { GlobalRole } from "../../db"
 import AddActivityForm from "../core/components/AddActivityForm"
+import countActivities from "../core/queries/countActivities"
+
+import "@carbon/charts/styles.css"
+import React from "react"
 
 const AddActivity = () => {
   const currentUser = useCurrentUser()
@@ -17,6 +19,12 @@ const AddActivity = () => {
   } else {
     return <>You do not have sufficient permissions.</>
   }
+}
+
+const CountsActivities = () => {
+  const [act] = useQuery(countActivities, null)
+
+  return <Tile>Activities added: {act}</Tile>
 }
 
 const Home: BlitzPage = () => {
@@ -31,31 +39,15 @@ const Home: BlitzPage = () => {
                   <Suspense fallback="Loading...">
                     <AddActivity />
                   </Suspense>
-                  {/* <Tile>Test</Tile> */}
                 </div>
               </div>
             </div>
             <div className="cds--col">
               <div className="outside">
                 <div className="inside">
-                  {" "}
-                  <Tile>Test</Tile>
-                </div>
-              </div>
-            </div>
-            <div className="cds--col">
-              <div className="outside">
-                <div className="inside">
-                  {" "}
-                  <Tile>Test</Tile>
-                </div>
-              </div>
-            </div>
-            <div className="cds--col">
-              <div className="outside">
-                <div className="inside">
-                  {" "}
-                  <Tile>Test</Tile>
+                  <Suspense fallback="Loading..">
+                    <CountsActivities />
+                  </Suspense>
                 </div>
               </div>
             </div>

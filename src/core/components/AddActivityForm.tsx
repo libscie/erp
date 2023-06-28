@@ -64,13 +64,13 @@ const AddActivityForm = () => {
               {(props) => (
                 <>
                   <TextArea
-                    cols={50}
-                    helperText="Optional helper text here; if message is more than one line text should wrap (~100 character count maximum)"
+                    helperText="Provide details that should become part of our collective documentation."
                     id="description"
                     invalidText="Invalid error message."
                     labelText="Text area label"
-                    placeholder="Optional placeholder text"
+                    placeholder="Description placeholder text. "
                     rows={12}
+                    required
                     {...props.input}
                   />
                 </>
