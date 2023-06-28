@@ -10,7 +10,7 @@ import {
   DatePicker,
   DatePickerInput,
   ToastNotification,
-} from "@carbon/react"
+} from "carbon-components-react"
 import { Form as FinalForm, Field } from "react-final-form"
 import toast from "react-hot-toast"
 import addActivity from "../mutations/addActivity"

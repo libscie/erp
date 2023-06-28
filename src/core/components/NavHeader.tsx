@@ -13,7 +13,7 @@ import {
   HeaderMenuItem,
   HeaderMenu,
   HeaderNavigation,
-} from "@carbon/react"
+} from "carbon-components-react"
 import Link from "next/link"
 import { Suspense, useState } from "react"
 import { Search, Notification, Switcher } from "@carbon/react/icons"
