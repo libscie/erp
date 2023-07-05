@@ -43,7 +43,7 @@ const LogInOut = () => {
 const NavHeader = () => {
   return (
     <Header aria-label="LibScie Manager">
-      <HeaderName href="#" prefix="LibScie">
+      <HeaderName href="/" prefix="LibScie">
         Manager
       </HeaderName>
       <HeaderNavigation aria-label="Navigation links">
