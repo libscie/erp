@@ -13,29 +13,40 @@ import {
 } from "carbon-components-react"
 import { Form as FinalForm, Field } from "react-final-form"
 import toast from "react-hot-toast"
+import { Prisma } from "@prisma/client"
+
 import addActivity from "../mutations/addActivity"
 import { useMutation } from "@blitzjs/rpc"
 import { getSession, useSession } from "@blitzjs/auth"
+import Editor from "../lexical/Editor"
+import { useState } from "react"
 
 const AddActivityForm = () => {
   const [newActivity] = useMutation(addActivity)
+  const [description, setDescription] = useState(
+    `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"f","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
+  )
+  const [submit, setSubmit] = useState(true)
   const session = useSession()
 
   return (
     <FinalForm
       onSubmit={async (values) => {
-        console.log(values)
         // Not using toast.promise because hard to customise
         // https://github.com/timolins/react-hot-toast/issues/147
         try {
-          await newActivity({
-            title: values.title,
-            description: values.description || null,
-            startDate: values.startAndEndDates[0] || null,
-            endDate: values.startAndEndDates[1] || null,
-            location: values.location || null,
-          })
-          toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
+          if (submit) {
+            await newActivity({
+              title: values.title,
+              description,
+              startDate: values.startAndEndDates[0] || null,
+              endDate: values.startAndEndDates[1] || null,
+              location: values.location || null,
+            })
+            toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
+
+            setSubmit(false)
+          }
         } catch (e) {
           toast.custom(
             <ToastNotification role="status" kind="error" title={`Failed because ${e.message}`} />
@@ -60,22 +71,11 @@ const AddActivityForm = () => {
                 </>
               )}
             </Field>
-            <Field name="description">
-              {(props) => (
-                <>
-                  <TextArea
-                    helperText="Provide details that should become part of our collective documentation."
-                    id="description"
-                    invalidText="Invalid error message."
-                    labelText="Text area label"
-                    placeholder="Description placeholder text. "
-                    rows={12}
-                    required
-                    {...props.input}
-                  />
-                </>
-              )}
-            </Field>
+            <Editor
+              onChange={(editorState) => {
+                setDescription(JSON.stringify(editorState))
+              }}
+            />
             <Field name="location">
               {(props) => (
                 <>

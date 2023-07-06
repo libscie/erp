@@ -7,6 +7,7 @@ import { Tile } from "@carbon/react"
 import { GlobalRole } from "../../db"
 import AddActivityForm from "../core/components/AddActivityForm"
 import countActivities from "../core/queries/countActivities"
+import Editor from "../core/lexical/Editor"
 
 import "@carbon/charts/styles.css"
 import React from "react"

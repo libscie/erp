@@ -2,6 +2,7 @@ import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@bl
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React from "react"
 import { withBlitz } from "src/blitz-client"
+import "../styles/styles.css"
 import "../styles/global.scss"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
