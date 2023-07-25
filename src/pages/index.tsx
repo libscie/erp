@@ -1,31 +1,36 @@
 import { Suspense } from "react"
 import Layout from "src/core/layouts/Layout"
-import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import { useQuery } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
-import { Tile } from "@carbon/react"
-import { GlobalRole } from "../../db"
-import AddActivityForm from "../core/components/AddActivityForm"
+import { ClickableTile, Heading, Section } from "@carbon/react"
+import { Stack } from "carbon-components-react"
 import countActivities from "../core/queries/countActivities"
-import Editor from "../core/lexical/Editor"
 
 import "@carbon/charts/styles.css"
 import React from "react"
 
-const AddActivity = () => {
-  const currentUser = useCurrentUser()
-
-  if (currentUser?.role == ("ADMIN" as GlobalRole)) {
-    return <AddActivityForm />
-  } else {
-    return <>You do not have sufficient permissions.</>
-  }
-}
-
 const CountsActivities = () => {
   const [act] = useQuery(countActivities, null)
 
-  return <Tile>Activities added: {act}</Tile>
+  return <ClickableTile href="/activities">Activities added: {act}</ClickableTile>
+}
+
+const AddActivity = () => {
+  return (
+    <ClickableTile href="/add/activity">
+      <Heading>Add activity</Heading>
+      <Section>Track a recent, future, or past event in our logbook.</Section>
+    </ClickableTile>
+  )
+}
+
+const AddBudget = () => {
+  return (
+    <ClickableTile href="/add/budget">
+      <Heading>Create budget</Heading>
+      <Section>Submit a budget for approval.</Section>
+    </ClickableTile>
+  )
 }
 
 const Home: BlitzPage = () => {
@@ -33,29 +38,22 @@ const Home: BlitzPage = () => {
     <Layout title="Home">
       <main>
         <div className="cds--grid marginal">
-          <div className="cds--row">
-            <div className="cds--col">
-              <div className="outside">
-                <div className="inside">
-                  <Suspense fallback="Loading...">
-                    <AddActivity />
-                  </Suspense>
-                </div>
-              </div>
-            </div>
-            <div className="cds--col">
-              <div className="outside">
-                <div className="inside">
-                  <Suspense fallback="Loading..">
-                    <CountsActivities />
-                  </Suspense>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Stack
+            gap={6}
+            orientation="horizontal"
+            style={{
+              overflowX: "scroll",
+              width: "100%",
+            }}
+          >
+            <AddActivity />
+            <Suspense fallback="Loading..">
+              <CountsActivities />
+            </Suspense>
+            <AddBudget />
+          </Stack>
         </div>
       </main>
-      <footer></footer>
     </Layout>
   )
 }

@@ -17,6 +17,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
       <NavHeader />
       {children}
       <Toaster position="bottom-right" />
+      <footer></footer>
     </>
   )
 }

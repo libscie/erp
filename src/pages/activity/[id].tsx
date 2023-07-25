@@ -28,7 +28,6 @@ const ActivityViewer: BlitzPage = (activity) => {
           </div>
         </div>
       </main>
-      <footer></footer>
     </Layout>
   )
 }

@@ -1,33 +1,27 @@
 import {
-  Form,
   TextInput,
-  TextArea,
-  Select,
-  SelectItem,
   Button,
   Stack,
-  ModalWrapper,
   DatePicker,
   DatePickerInput,
   ToastNotification,
 } from "carbon-components-react"
 import { Form as FinalForm, Field } from "react-final-form"
 import toast from "react-hot-toast"
-import { Prisma } from "@prisma/client"
-
 import addActivity from "../mutations/addActivity"
 import { useMutation } from "@blitzjs/rpc"
 import { getSession, useSession } from "@blitzjs/auth"
 import Editor from "../lexical/Editor"
 import { useState } from "react"
+import { useRouter } from "next/router"
 
 const AddActivityForm = () => {
   const [newActivity] = useMutation(addActivity)
   const [description, setDescription] = useState(
     `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"f","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
   )
-  const [submit, setSubmit] = useState(true)
-  const session = useSession()
+  const [submit, setSubmit] = useState(false)
+  const router = useRouter()
 
   return (
     <FinalForm
@@ -43,8 +37,8 @@ const AddActivityForm = () => {
               endDate: values.startAndEndDates[1] || null,
               location: values.location || null,
             })
+            await router.push("/")
             toast.custom(<ToastNotification role="status" kind="success" title="Added activity!" />)
-
             setSubmit(false)
           }
         } catch (e) {
@@ -131,7 +125,14 @@ const AddActivityForm = () => {
               )}
             </Field>
 
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              onClick={() => {
+                setSubmit(true)
+              }}
+            >
+              Submit
+            </Button>
           </Stack>
         </form>
       )}
