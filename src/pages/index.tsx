@@ -33,24 +33,38 @@ const AddBudget = () => {
   )
 }
 
+const AddService = () => {
+  return (
+    <ClickableTile href="/add/budget">
+      <Heading>Add service</Heading>
+      <Section>
+        Make sure we know what services we use, what they cost, and when they expire
+      </Section>
+    </ClickableTile>
+  )
+}
+
 const Home: BlitzPage = () => {
   return (
     <Layout title="Home">
       <main>
         <div className="cds--grid marginal">
-          <Stack
-            gap={6}
-            orientation="horizontal"
-            style={{
-              overflowX: "scroll",
-              width: "100%",
-            }}
-          >
-            <AddActivity />
-            <Suspense fallback="Loading..">
-              <CountsActivities />
-            </Suspense>
-            <AddBudget />
+          <Stack gap={6}>
+            <Stack
+              gap={6}
+              orientation="horizontal"
+              style={{
+                overflowX: "scroll",
+                width: "100%",
+              }}
+            >
+              <AddActivity />
+              <Suspense fallback="Loading..">
+                <CountsActivities />
+              </Suspense>
+              <AddBudget />
+            </Stack>
+            <AddService />
           </Stack>
         </div>
       </main>

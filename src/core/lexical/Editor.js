@@ -26,30 +26,31 @@ function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>
 }
 
-const editorConfig = {
-  // The editor theme
-  theme: ExampleTheme,
-  // Handling of errors during update
-  onError(error) {
-    throw error
-  },
-  // Any custom nodes go here
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    QuoteNode,
-    CodeNode,
-    CodeHighlightNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-    AutoLinkNode,
-    LinkNode,
-  ],
-}
+export default function Editor({ onChange, state = null }) {
+  const editorConfig = {
+    editorState: state,
+    // The editor theme
+    theme: ExampleTheme,
+    // Handling of errors during update
+    onError(error) {
+      throw error
+    },
+    // Any custom nodes go here
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode,
+    ],
+  }
 
-export default function Editor({ onChange }) {
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
