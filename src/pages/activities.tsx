@@ -41,7 +41,6 @@ const ActiviesPage: BlitzPage = () => {
           </Suspense>
         </div>
       </main>
-      <footer></footer>
     </Layout>
   )
 }
