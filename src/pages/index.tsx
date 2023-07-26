@@ -43,6 +43,16 @@ const AddService = () => {
     </ClickableTile>
   )
 }
+const AddDoc = () => {
+  return (
+    <ClickableTile href="/add/budget">
+      <Heading>Add Document</Heading>
+      <Section>
+        Make sure we know what services we use, what they cost, and when they expire
+      </Section>
+    </ClickableTile>
+  )
+}
 
 const Home: BlitzPage = () => {
   return (
@@ -65,6 +75,7 @@ const Home: BlitzPage = () => {
               <AddBudget />
             </Stack>
             <AddService />
+            <AddDoc />
           </Stack>
         </div>
       </main>
