@@ -3,16 +3,16 @@ import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import { BlitzPage } from "@blitzjs/next"
 import { GlobalRole } from "../../../db"
-import AddActivityForm from "../../core/components/AddActivityForm"
+import AddDocumentForm from "../../core/components/AddDocumentForm"
 
 import "@carbon/charts/styles.css"
 import React from "react"
 
-const AddActivity = () => {
+const AddDocument = () => {
   const currentUser = useCurrentUser()
 
   if (currentUser?.role == ("ADMIN" as GlobalRole)) {
-    return <AddActivityForm />
+    return <AddDocumentForm />
   } else {
     return <>You do not have sufficient permissions.</>
   }
@@ -27,7 +27,7 @@ const AddDocumentPage: BlitzPage = () => {
             <div className="outside">
               <div className="inside">
                 <Suspense fallback="Loading...">
-                  <AddActivity />
+                  <AddDocument />
                 </Suspense>
               </div>
             </div>

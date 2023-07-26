@@ -15,41 +15,11 @@ const CountsActivities = () => {
   return <ClickableTile href="/activities">Activities added: {act}</ClickableTile>
 }
 
-const AddActivity = () => {
+const AddElement = ({ what, blurb }) => {
   return (
-    <ClickableTile href="/add/activity">
-      <Heading>Add activity</Heading>
-      <Section>Track a recent, future, or past event in our logbook.</Section>
-    </ClickableTile>
-  )
-}
-
-const AddBudget = () => {
-  return (
-    <ClickableTile href="/add/budget">
-      <Heading>Create budget</Heading>
-      <Section>Submit a budget for approval.</Section>
-    </ClickableTile>
-  )
-}
-
-const AddService = () => {
-  return (
-    <ClickableTile href="/add/budget">
-      <Heading>Add service</Heading>
-      <Section>
-        Make sure we know what services we use, what they cost, and when they expire
-      </Section>
-    </ClickableTile>
-  )
-}
-const AddDoc = () => {
-  return (
-    <ClickableTile href="/add/budget">
-      <Heading>Add Document</Heading>
-      <Section>
-        Make sure we know what services we use, what they cost, and when they expire
-      </Section>
+    <ClickableTile href={`/add/${what}`}>
+      <Heading>Add {what}</Heading>
+      <Section>{blurb}</Section>
     </ClickableTile>
   )
 }
@@ -68,14 +38,14 @@ const Home: BlitzPage = () => {
                 width: "100%",
               }}
             >
-              <AddActivity />
+              <AddElement what="activity" blurb="Test" />
               <Suspense fallback="Loading..">
                 <CountsActivities />
               </Suspense>
-              <AddBudget />
+              <AddElement what="budget" blurb="Test" />
             </Stack>
-            <AddService />
-            <AddDoc />
+            <AddElement what="service" blurb="Test" />
+            <AddElement what="document" blurb="Test" />
           </Stack>
         </div>
       </main>
