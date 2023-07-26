@@ -76,8 +76,15 @@ model Activity {
   title       String?
   description String?
   // authors
-  // location
   // people
   // notes
   //
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  contents  Json
 }
