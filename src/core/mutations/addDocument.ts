@@ -14,6 +14,11 @@ export default resolver.pipe(
       data: {
         title,
         contents,
+        authors: {
+          connect: {
+            id: ctx.session.$publicData.userId as any,
+          },
+        },
       },
     })
 

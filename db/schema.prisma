@@ -23,8 +23,10 @@ model User {
   hashedPassword String?
   role           GlobalRole @default(USER)
 
-  tokens   Token[]
-  sessions Session[]
+  tokens     Token[]
+  sessions   Session[]
+  Document   Document? @relation(fields: [documentId], references: [id])
+  documentId Int?
 }
 
 enum GlobalRole {
@@ -87,4 +89,5 @@ model Document {
   updatedAt DateTime @updatedAt
   title     String
   contents  Json
+  authors   User[]
 }
