@@ -42,9 +42,9 @@ const Home: BlitzPage = () => {
               <Suspense fallback="Loading..">
                 <CountsActivities />
               </Suspense>
-              <AddElement what="budget" blurb="Test" />
             </Stack>
-            <AddElement what="service" blurb="Test" />
+            {/* <AddElement what="budget" blurb="Test" /> */}
+            {/* <AddElement what="service" blurb="Test" /> */}
             <AddElement what="document" blurb="Test" />
           </Stack>
         </div>

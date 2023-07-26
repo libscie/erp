@@ -9,6 +9,8 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin"
 import TreeViewPlugin from "./plugins/TreeViewPlugin"
 import ToolbarPlugin from "./plugins/ToolbarPlugin"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin"
+
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table"
 import { ListItemNode, ListNode } from "@lexical/list"
 import { CodeHighlightNode, CodeNode } from "@lexical/code"
@@ -29,6 +31,7 @@ function Placeholder() {
 export default function Editor({ onChange, state = null }) {
   const editorConfig = {
     editorState: state,
+    // editable: false,
     // The editor theme
     theme: ExampleTheme,
     // Handling of errors during update
@@ -66,10 +69,11 @@ export default function Editor({ onChange, state = null }) {
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
+          <ListMaxIndentLevelPlugin maxDepth={7} />
           <LinkPlugin />
+          <TabIndentationPlugin />
           <AutoLinkPlugin />
           <OnChangePlugin onChange={onChange} />
-          <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </div>

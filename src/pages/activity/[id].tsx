@@ -18,7 +18,7 @@ export const getServerSideProps = gSSP(async ({ params }) => {
 
 const ActivityViewer: BlitzPage = (activity) => {
   const [description, setDescription] = useState(
-    `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"f","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
+    `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"dfsafsdf","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
   )
   const [updateActivityMutation] = useMutation(updateActivity)
   return (
@@ -41,7 +41,7 @@ const ActivityViewer: BlitzPage = (activity) => {
                 onChange={(editorState) => {
                   setDescription(JSON.stringify(editorState))
                 }}
-                // state={activity["activity"]["description"]}
+                // state={description}
               />
             </div>
           </div>
