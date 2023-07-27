@@ -16,9 +16,7 @@ import { useRouter } from "next/router"
 
 const AddActivityForm = () => {
   const [newActivity] = useMutation(addActivity)
-  const [description, setDescription] = useState(
-    `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"f","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
-  )
+  const [description, setDescription] = useState({})
   const [submit, setSubmit] = useState(false)
   const router = useRouter()
 
@@ -66,7 +64,7 @@ const AddActivityForm = () => {
             </Field>
             <Editor
               onChange={(editorState) => {
-                setDescription(JSON.stringify(editorState))
+                setDescription(editorState)
               }}
             />
             <Field name="location">

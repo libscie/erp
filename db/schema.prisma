@@ -27,6 +27,8 @@ model User {
   sessions   Session[]
   Document   Document? @relation(fields: [documentId], references: [id])
   documentId Int?
+  Activity   Activity? @relation(fields: [activityId], references: [id])
+  activityId Int?
 }
 
 enum GlobalRole {
@@ -76,11 +78,10 @@ model Activity {
   endDate     DateTime?
   location    String?
   title       String?
-  description String?
-  // authors
+  description Json
+  authors     User[]
   // people
   // notes
-  //
 }
 
 model Document {

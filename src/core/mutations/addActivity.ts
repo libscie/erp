@@ -4,7 +4,7 @@ import { Ctx, NotFoundError } from "blitz"
 
 interface Activity {
   title: string
-  description: string
+  description: object
   startDate: string
   endDate: string
   location: string
