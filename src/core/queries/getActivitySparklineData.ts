@@ -41,26 +41,29 @@ export default async function getActivitySparklineData() {
     ],
   })
 
-  let allDates: Array<any> = activities.map((module) => {
-    if (module.endDate) {
-      return getDates(module.startDate, module.endDate)
-    }
-    return module.startDate.toISOString().substr(0, 10)
-  })
-  allDates = allDates.reduce((elem1, elem2) => elem1.concat(elem2))
-
   let data: Array<object> = []
-  const uniqDates = allDates.filter(onlyUnique)
-  console.log(uniqDates)
-  console.log(uniqDates.length)
-  uniqDates.forEach((date, index) => {
-    const epochTime = new Date(date)
-    data.push({
-      group: "Activities",
-      date: epochTime.getTime(),
-      value: itemCounter(allDates, date),
+
+  if (activities.length > 0) {
+    let allDates: Array<any> = activities.map((module) => {
+      if (module.endDate) {
+        return getDates(module.startDate, module.endDate)
+      }
+      return module.startDate.toISOString().substr(0, 10)
     })
-  })
+    allDates = allDates.reduce((elem1, elem2) => elem1.concat(elem2))
+
+    const uniqDates = allDates.filter(onlyUnique)
+    console.log(uniqDates)
+    console.log(uniqDates.length)
+    uniqDates.forEach((date, index) => {
+      const epochTime = new Date(date)
+      data.push({
+        group: "Activities",
+        date: epochTime.getTime(),
+        value: itemCounter(allDates, date),
+      })
+    })
+  }
 
   return data
 }
