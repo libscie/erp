@@ -20,6 +20,11 @@ export default resolver.pipe(
         startDate,
         endDate,
         location,
+        authors: {
+          connect: {
+            id: ctx.session.$publicData.userId as any,
+          },
+        },
       },
     })
 
