@@ -26,7 +26,14 @@ function getDates(startDate: Date, stopDate: Date) {
 }
 
 export default async function getActivitySparklineData() {
+  let dateSelect = new Date()
+  dateSelect.setMonth(dateSelect.getMonth() - 12)
   const activities = await db.activity.findMany({
+    where: {
+      startDate: {
+        gte: dateSelect,
+      },
+    },
     orderBy: [
       {
         startDate: "asc",
@@ -55,5 +62,5 @@ export default async function getActivitySparklineData() {
     })
   })
 
-  return true
+  return data
 }
