@@ -13,7 +13,7 @@ const activityOpts = {
   },
   axes: {
     bottom: {
-      visible: true,
+      visible: false,
       title: "What happened lately?",
       mapsTo: "date",
       scaleType: "time" as ScaleTypes,
