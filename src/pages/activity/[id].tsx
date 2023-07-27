@@ -5,7 +5,7 @@ import { Tag } from "carbon-components-react"
 import getActivity from "../../core/queries/getActivity"
 import Layout from "src/core/layouts/Layout"
 import Editor from "../../core/lexical/Editor"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, DatePicker, Heading, Section } from "@carbon/react"
 import updateActivity from "../../core/mutations/updateActivity"
 import { useMutation } from "@blitzjs/rpc"
@@ -21,6 +21,11 @@ const ActivityViewer: BlitzPage = (activity) => {
     `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"dfsafsdf","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`
   )
   const [updateActivityMutation] = useMutation(updateActivity)
+
+  // useEffect(() => {
+  //   setDescription(JSON.stringify(activity["activity"]["description"]))
+  // }, [])
+  console.log(activity["activity"])
   return (
     <Layout title="Home">
       <main>
@@ -30,7 +35,6 @@ const ActivityViewer: BlitzPage = (activity) => {
               <div className="outside">
                 <div className="inside">
                   <Heading>{activity["activity"]["title"]}</Heading>
-                  <Section>{activity["activity"]["description"]}</Section>
                   <Tag>{activity["activity"]["startDate"]}</Tag>
                   <Tag>{activity["activity"]["endDate"]}</Tag>
                 </div>
@@ -45,7 +49,7 @@ const ActivityViewer: BlitzPage = (activity) => {
               />
             </div>
           </div>
-          <Button
+          {/* <Button
             // disabled
             onClick={async () => {
               await updateActivityMutation({
@@ -55,7 +59,7 @@ const ActivityViewer: BlitzPage = (activity) => {
             }}
           >
             Update
-          </Button>
+          </Button> */}
         </div>
       </main>
     </Layout>
