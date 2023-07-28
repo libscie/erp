@@ -29,6 +29,8 @@ model User {
   documentId Int?
   Activity   Activity? @relation(fields: [activityId], references: [id])
   activityId Int?
+  Budget     Budget?   @relation(fields: [budgetId], references: [id])
+  budgetId   Int?
 }
 
 enum GlobalRole {
@@ -92,3 +94,35 @@ model Document {
   contents  Json
   authors   User[]
 }
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Time period
+  startDate DateTime @default(now())
+  endDate   DateTime
+
+  title String
+
+  lineItems     String[]
+  lineValues    Decimal[] // in euro
+  lineEmissions Decimal[] // in kgCo2
+
+  parents  Budget[] @relation("BudgetToBudget")
+  children Budget[] @relation("BudgetToBudget")
+
+  // transactions Transaction[]
+
+  authors User[]
+  // approved by
+}
+
+// model Transaction {
+//   id        Int      @id @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   Budget   Budget? @relation(fields: [budgetId], references: [id])
+//   budgetId Int?
+// }
