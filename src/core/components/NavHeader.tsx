@@ -32,7 +32,7 @@ const LogInOut = () => {
   } else {
     return (
       <>
-        <Link href="api/auth/github">
+        <Link href="/api/auth/github">
           <Button>Login</Button>
         </Link>
       </>
@@ -47,10 +47,15 @@ const NavHeader = () => {
         Manager
       </HeaderName>
       <HeaderNavigation aria-label="Navigation links">
-        <HeaderMenu aria-label="Quick Links" menuLinkName="Quick Links">
+        <HeaderMenu aria-label="Quick Links" menuLinkName="Links">
           <HeaderMenuItem href="https://libscie.org">Blog</HeaderMenuItem>
           <HeaderMenuItem href="https://libscie.org/ghost">Blog editor</HeaderMenuItem>
           <HeaderMenuItem href="https://handbook.libscie.org/">Handbook</HeaderMenuItem>
+        </HeaderMenu>
+        <HeaderMenu aria-label="Add things to the Manager" menuLinkName="Add">
+          <HeaderMenuItem href="/add/activity">Activity</HeaderMenuItem>
+          <HeaderMenuItem href="/add/budget">Budget</HeaderMenuItem>
+          <HeaderMenuItem href="/add/document">Document</HeaderMenuItem>
         </HeaderMenu>
       </HeaderNavigation>
       <HeaderGlobalBar>

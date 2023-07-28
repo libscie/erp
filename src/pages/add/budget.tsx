@@ -4,6 +4,7 @@ import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import { BlitzPage } from "@blitzjs/next"
 import { GlobalRole } from "../../../db"
 import AddActivityForm from "../../core/components/AddActivityForm"
+import AddBudgetForm from "../../core/components/AddBudgetForm"
 
 import "@carbon/charts/styles.css"
 import React from "react"
@@ -12,7 +13,7 @@ const AddActivity = () => {
   const currentUser = useCurrentUser()
 
   if (currentUser?.role == ("ADMIN" as GlobalRole)) {
-    return <AddActivityForm />
+    return <AddBudgetForm />
   } else {
     return <>You do not have sufficient permissions.</>
   }

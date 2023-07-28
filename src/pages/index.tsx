@@ -6,7 +6,7 @@ import { ClickableTile, Heading, Section, Tile } from "@carbon/react"
 import { Stack } from "carbon-components-react"
 import countActivities from "../core/queries/countActivities"
 import React from "react"
-import { AreaChart, LineChart } from "@carbon/charts-react"
+import { AreaChart, DonutChart, GaugeChart, LineChart } from "@carbon/charts-react"
 import getActivitySparklineData from "../core/queries/getActivitySparklineData"
 import { gSSP } from "src/blitz-server"
 import { activityOpts } from "../core/opts"
@@ -49,17 +49,20 @@ const Home: BlitzPage = (activity) => {
                 width: "100%",
               }}
             >
-              <AddElement what="activity" blurb="Test" />
-              <Suspense fallback="Loading..">
+              {/* <Suspense fallback="Loading..">
                 <CountsActivities />
-              </Suspense>
+              </Suspense> */}
               <Tile style={{ background: "#fff" }}>
                 <Suspense fallback={<LineChart data={[]} options={{}}></LineChart>}>
                   <AreaChart data={activity["activity"]} options={activityOpts}></AreaChart>
                 </Suspense>
               </Tile>
             </Stack>
-            <AddElement what="document" blurb="Test" />
+            <Stack orientation="horizontal">
+              {/* <DonutChart data={data} options={opts}></DonutChart>
+              <DonutChart data={data} options={opts}></DonutChart> */}
+              {/* <GaugeChart data={gaugeData} options={gaugeOpts}></GaugeChart> */}
+            </Stack>
           </Stack>
         </div>
       </main>
@@ -68,3 +71,64 @@ const Home: BlitzPage = (activity) => {
 }
 
 export default Home
+
+const opts = {
+  title: "Donut",
+  resizable: true,
+  donut: {
+    center: {
+      label: "Browsers",
+    },
+    alignment: "center",
+  },
+  height: "400px",
+}
+
+const data = [
+  {
+    group: "2V2N 9KYPM version 1",
+    value: 20000,
+  },
+  {
+    group: "L22I P66EP L22I P66EP L22I P66EP",
+    value: 65000,
+  },
+  {
+    group: "JQAI 2M4L1",
+    value: 75000,
+  },
+  {
+    group: "J9DZ F37AP",
+    value: 1200,
+  },
+  {
+    group: "YEL48 Q6XK YEL48",
+    value: 10000,
+  },
+  {
+    group: "Misc",
+    value: -25000,
+  },
+]
+
+const gaugeData = [
+  {
+    group: "value",
+    value: 42,
+  },
+  {
+    group: "delta",
+    value: -13.37,
+  },
+]
+
+const gaugeOpts = {
+  title: "Gauge semicircular -- danger status",
+  resizable: true,
+  height: "250px",
+  width: "100%",
+  gauge: {
+    type: "semi",
+    status: "danger",
+  },
+}
