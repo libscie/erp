@@ -2,7 +2,13 @@
 CREATE TYPE "GlobalRole" AS ENUM ('USER', 'EMPLOYEE', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "TokenType" AS ENUM ('RESET_PASSWORD');
+CREATE TYPE "TokenType" AS ENUM ('RESET_PASSWORD', 'WEBHOOK');
+
+-- CreateEnum
+CREATE TYPE "TransactionType" AS ENUM ('DEBIT', 'CREDIT');
+
+-- CreateEnum
+CREATE TYPE "EmissionScope" AS ENUM ('SCOPE1', 'SCOPE2', 'SCOPE3');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -17,6 +23,8 @@ CREATE TABLE "User" (
     "role" "GlobalRole" NOT NULL DEFAULT 'USER',
     "documentId" INTEGER,
     "activityId" INTEGER,
+    "budgetId" INTEGER,
+    "transactionId" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -42,9 +50,9 @@ CREATE TABLE "Token" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
     "hashedToken" TEXT NOT NULL,
     "type" "TokenType" NOT NULL,
-    "expiresAt" TIMESTAMP(3) NOT NULL,
     "sentTo" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
 
@@ -86,8 +94,27 @@ CREATE TABLE "Budget" (
     "lineItems" TEXT[],
     "lineValues" DECIMAL(65,30)[],
     "lineEmissions" DECIMAL(65,30)[],
+    "totalValue" INTEGER NOT NULL DEFAULT 0,
+    "totalEmissions" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Budget_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Transaction" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "transactionDate" TIMESTAMP(3),
+    "value" DECIMAL(65,30) NOT NULL DEFAULT 0,
+    "vat" INTEGER NOT NULL DEFAULT 0,
+    "netValue" DECIMAL(65,30) NOT NULL DEFAULT 0,
+    "account" "TransactionType" NOT NULL DEFAULT 'CREDIT',
+    "emissions" DECIMAL(65,30) NOT NULL DEFAULT 0,
+    "scope" "EmissionScope" NOT NULL DEFAULT 'SCOPE3',
+    "budgetId" INTEGER NOT NULL,
+
+    CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -118,10 +145,19 @@ ALTER TABLE "User" ADD CONSTRAINT "User_documentId_fkey" FOREIGN KEY ("documentI
 ALTER TABLE "User" ADD CONSTRAINT "User_activityId_fkey" FOREIGN KEY ("activityId") REFERENCES "Activity"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "Budget"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_transactionId_fkey" FOREIGN KEY ("transactionId") REFERENCES "Transaction"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Token" ADD CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "Budget"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_BudgetToBudget" ADD CONSTRAINT "_BudgetToBudget_A_fkey" FOREIGN KEY ("A") REFERENCES "Budget"("id") ON DELETE CASCADE ON UPDATE CASCADE;

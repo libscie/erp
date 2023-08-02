@@ -23,14 +23,16 @@ model User {
   hashedPassword String?
   role           GlobalRole @default(USER)
 
-  tokens     Token[]
-  sessions   Session[]
-  Document   Document? @relation(fields: [documentId], references: [id])
-  documentId Int?
-  Activity   Activity? @relation(fields: [activityId], references: [id])
-  activityId Int?
-  Budget     Budget?   @relation(fields: [budgetId], references: [id])
-  budgetId   Int?
+  tokens        Token[]
+  sessions      Session[]
+  Document      Document?    @relation(fields: [documentId], references: [id])
+  documentId    Int?
+  Activity      Activity?    @relation(fields: [activityId], references: [id])
+  activityId    Int?
+  Budget        Budget?      @relation(fields: [budgetId], references: [id])
+  budgetId      Int?
+  Transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  transactionId Int?
 }
 
 enum GlobalRole {
@@ -58,9 +60,9 @@ model Token {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  expiresAt   DateTime
   hashedToken String
   type        TokenType
-  expiresAt   DateTime
   sentTo      String
 
   user   User @relation(fields: [userId], references: [id])
@@ -71,6 +73,7 @@ model Token {
 
 enum TokenType {
   RESET_PASSWORD
+  WEBHOOK
 }
 
 model Activity {
@@ -114,17 +117,37 @@ model Budget {
   parents  Budget[] @relation("BudgetToBudget")
   children Budget[] @relation("BudgetToBudget")
 
-  // transactions Transaction[]
-
-  authors User[]
+  authors     User[]
   // approved by
+  Transaction Transaction[]
 }
 
-// model Transaction {
-//   id        Int      @id @default(autoincrement())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+model Transaction {
+  id              Int       @id @default(autoincrement())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  transactionDate DateTime?
+  summary         String?
 
-//   Budget   Budget? @relation(fields: [budgetId], references: [id])
-//   budgetId Int?
-// }
+  value   Decimal         @default(0) // in euro
+  vat     Int             @default(0)
+  account TransactionType @default(CREDIT)
+
+  emissions Decimal       @default(0) // in kg CO2
+  scope     EmissionScope @default(SCOPE3)
+
+  budget   Budget? @relation(fields: [budgetId], references: [id])
+  budgetId Int?
+  author   User[]
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+enum EmissionScope {
+  SCOPE1
+  SCOPE2
+  SCOPE3
+}
