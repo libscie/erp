@@ -66,4 +66,6 @@ const ActivityViewer: BlitzPage = (activity) => {
   )
 }
 
+ActivityViewer.authenticate = { redirectTo: "/", role: ["ADMIN"] }
+
 export default ActivityViewer

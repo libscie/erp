@@ -38,4 +38,5 @@ const AddActivityPage: BlitzPage = () => {
   )
 }
 
+// AddActivityPage.authenticate = { redirectTo: "/", role: "ADMIN" }
 export default AddActivityPage

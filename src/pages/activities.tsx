@@ -1,15 +1,10 @@
 import { Suspense } from "react"
 import Layout from "src/core/layouts/Layout"
-import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import { useQuery } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
-import { Link, Tile, ClickableTile, Heading, Section } from "@carbon/react"
-import { Stack, Tag } from "carbon-components-react"
-import { CalendarAdd } from "@carbon/icons-react"
+import { ClickableTile } from "@carbon/react"
+import { Stack } from "carbon-components-react"
 
-import { GlobalRole } from "../../db"
-import AddActivityForm from "../core/components/AddActivityForm"
-import countActivities from "../core/queries/countActivities"
 import getActivities from "../core/queries/getActivities"
 
 import "@carbon/charts/styles.css"
