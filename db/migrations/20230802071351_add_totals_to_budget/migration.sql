@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Budget" ADD COLUMN     "totalEmissions" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "totalValue" INTEGER NOT NULL DEFAULT 0;

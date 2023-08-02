@@ -105,9 +105,11 @@ model Budget {
 
   title String
 
-  lineItems     String[]
-  lineValues    Decimal[] // in euro
-  lineEmissions Decimal[] // in kgCo2
+  lineItems      String[]
+  lineValues     Decimal[] // in euro
+  lineEmissions  Decimal[] // in kgCo2
+  totalValue     Int       @default(0)
+  totalEmissions Int       @default(0)
 
   parents  Budget[] @relation("BudgetToBudget")
   children Budget[] @relation("BudgetToBudget")
