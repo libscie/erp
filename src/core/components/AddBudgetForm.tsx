@@ -9,20 +9,16 @@ import {
 } from "carbon-components-react"
 import { Form as FinalForm, Field } from "react-final-form"
 import toast from "react-hot-toast"
-import addActivity from "../mutations/addActivity"
 import { useMutation, useQuery } from "@blitzjs/rpc"
-import Editor from "../lexical/Editor"
 import { useState } from "react"
 import { useRouter } from "next/router"
-import { ButtonSet, Dropdown, Heading, Search } from "@carbon/react"
+import { ButtonSet, Dropdown, Heading, Section } from "@carbon/react"
 import addBudget from "../mutations/addBudget"
-import { Decimal } from "@prisma/client/runtime"
 import getBudgetOptions from "../queries/getBudgetOptions"
 
 const AddBudgetForm = () => {
   const [newBudget] = useMutation(addBudget)
   const [budgetOpts] = useQuery(getBudgetOptions, null)
-  const [description, setDescription] = useState({})
   const [submit, setSubmit] = useState(false)
   const [parentId, setParent] = useState(undefined as undefined | number)
   const [lineItems, setLineItems] = useState([{ title: "", value: 0, emissions: 0 }])
@@ -33,7 +29,6 @@ const AddBudgetForm = () => {
   return (
     <FinalForm
       onSubmit={async (values) => {
-        alert(JSON.stringify(values))
         // Not using toast.promise because hard to customise
         // https://github.com/timolins/react-hot-toast/issues/147
         try {
@@ -52,6 +47,8 @@ const AddBudgetForm = () => {
               lineEmissions: lineItems.map((item) => {
                 return item.emissions.toString()
               }),
+              totalValue: totalBudget,
+              totalEmissions,
               parentId,
             })
             await router.push("/")
@@ -67,7 +64,7 @@ const AddBudgetForm = () => {
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Stack orientation="horizontal">
-            <Heading>Total: {totalBudget}</Heading>
+            <Heading>Add new budget</Heading>
           </Stack>
           <Stack gap={7}>
             <Field name="title">
@@ -75,11 +72,11 @@ const AddBudgetForm = () => {
                 <>
                   <TextInput
                     id="title"
-                    helperText="At most 50 characters, please. This helps keep it easy to understand."
+                    helperText="Keep this short and sweet. Acronyms need to be spelled out."
                     required
                     invalidText="Invalid error message."
-                    labelText="What happened?"
-                    placeholder="Provide a descriptive title for this activity."
+                    labelText="What is the budget title?"
+                    placeholder="Provide a descriptive title for your budget."
                     {...props.input}
                   />
                 </>
@@ -122,11 +119,11 @@ const AddBudgetForm = () => {
                 <Stack orientation="horizontal" key={index}>
                   <TextInput
                     id="title"
-                    helperText="At most 50 characters, please. This helps keep it easy to understand."
+                    helperText="Add line item description."
                     required
                     invalidText="Invalid error message."
                     // labelText={`Line item: ${index}`}
-                    placeholder="Provide a descriptive title for this activity."
+                    placeholder="Lodging (12 nights)"
                     onChange={(value) => {
                       let newLines = lineItems
                       newLines[index]!.title = value.target.value
@@ -136,27 +133,38 @@ const AddBudgetForm = () => {
                   />
                   <NumberInput
                     id="title"
-                    helperText="At most 50 characters, please. This helps keep it easy to understand."
+                    helperText="Add estimated cost in euro's."
                     required
                     invalidText="Invalid error message."
-                    labelText="What happeneddfsaf?"
+                    labelText="Add line item cost"
                     onChange={(value) => {
                       let newLines = lineItems
                       newLines[index]!.value = value.target.value
 
+                      setTotalBudget(
+                        newLines.reduce(
+                          (partialSum, a) => partialSum + parseInt(a.value.toString()),
+                          0
+                        )
+                      )
                       setLineItems(newLines)
                     }}
                   />
                   <NumberInput
                     id="title"
-                    helperText="At most 50 characters, please. This helps keep it easy to understand."
+                    helperText="Add estimated emissions in kilogram."
                     required
                     invalidText="Invalid error message."
-                    labelText="What happened?"
+                    labelText="Add line item emission estimate"
                     onChange={(value) => {
                       let newLines = lineItems
                       newLines[index]!.emissions = value.target.value
-
+                      setTotalEmissions(
+                        newLines.reduce(
+                          (partialSum, a) => partialSum + parseInt(a.emissions.toString()),
+                          0
+                        )
+                      )
                       setLineItems(newLines)
                     }}
                   />
@@ -187,8 +195,8 @@ const AddBudgetForm = () => {
             {/* <Search labelText={undefined} /> */}
             <Dropdown
               id="default"
-              titleText="Dropdown label"
-              helperText="This is some helper text"
+              titleText="Parent budget"
+              helperText="If this is a part of another, already existing budget, link it here."
               label="Dropdown menu options"
               items={budgetOpts}
               itemToString={(budgetOpts) => (budgetOpts ? budgetOpts.text : "")}
@@ -196,13 +204,10 @@ const AddBudgetForm = () => {
                 setParent(parseInt(values.selectedItem!.id!))
               }}
             />
-            {/* <Select id="select-1" labelText="Select an option" helperText="Optional helper text">
-        <SelectItem value="" text="" />
-        <SelectItem value="option-1" text="Option 1" />
-        <SelectItem value="option-2" text="Option 2" />
-        <SelectItem value="option-3" text="Option 3" />
-        <SelectItem value="option-4" text="Option 4" />
-      </Select> */}
+            <Section>
+              <Section>Total value: €{totalBudget}</Section>
+              <Section>Total emissions: {totalEmissions}kg Co2</Section>
+            </Section>
             <Button
               type="submit"
               onClick={() => {

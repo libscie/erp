@@ -8,6 +8,5 @@ export default resolver.pipe(async (id: number) => {
     },
   })
 
-  console.log(activities)
   return activities
 })

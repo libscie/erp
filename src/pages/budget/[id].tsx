@@ -25,7 +25,6 @@ const BudgetViewer: BlitzPage = (activity) => {
   // useEffect(() => {
   //   setDescription(JSON.stringify(activity["activity"]["description"]))
   // }, [])
-  console.log(activity["activity"])
   return (
     <Layout title="Home">
       <main>

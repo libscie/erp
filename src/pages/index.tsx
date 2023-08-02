@@ -35,7 +35,6 @@ export const getServerSideProps = gSSP(async () => {
 })
 
 const Home: BlitzPage = (activity) => {
-  console.log(activity)
   return (
     <Layout title="Home">
       <main>

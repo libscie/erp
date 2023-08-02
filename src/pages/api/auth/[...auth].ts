@@ -20,8 +20,6 @@ export default api(
             callbackURL: `${process.env.APP_ORIGIN}/api/auth/github/callback`,
           },
           async function (accessToken, refreshToken, profile, done) {
-            console.log(profile)
-
             let user
             try {
               user = await db.user.findFirstOrThrow({
