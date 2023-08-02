@@ -41,7 +41,7 @@ export default async function getActivitySparklineData() {
     ],
   })
 
-  let data: Array<object> = []
+  let activityData: Array<object> = []
 
   if (activities.length > 0) {
     let allDates: Array<any> = activities.map((module) => {
@@ -55,7 +55,7 @@ export default async function getActivitySparklineData() {
     const uniqDates = allDates.filter(onlyUnique)
     uniqDates.forEach((date, index) => {
       const epochTime = new Date(date)
-      data.push({
+      activityData.push({
         group: "Activities",
         date: epochTime.getTime(),
         value: itemCounter(allDates, date),
@@ -63,5 +63,64 @@ export default async function getActivitySparklineData() {
     })
   }
 
-  return data
+  // transactions
+
+  const transactionsCredit = await db.transaction.findMany({
+    where: {
+      transactionDate: {
+        gte: dateSelect,
+      },
+      account: "CREDIT",
+    },
+    orderBy: [
+      {
+        transactionDate: "asc",
+      },
+    ],
+  })
+  if (transactionsCredit.length > 0) {
+    let allDates: Array<any> = transactionsCredit.map((module) => {
+      return module.transactionDate!.toISOString().substr(0, 10)
+    })
+
+    const uniqDatesTrans = allDates.filter(onlyUnique)
+    uniqDatesTrans.forEach((date, index) => {
+      const epochTime = new Date(date)
+      activityData.push({
+        group: "transactionsCredit",
+        date: epochTime.getTime(),
+        value: itemCounter(allDates, date),
+      })
+    })
+  }
+  const transactionsDebit = await db.transaction.findMany({
+    where: {
+      transactionDate: {
+        gte: dateSelect,
+      },
+      account: "DEBIT",
+    },
+    orderBy: [
+      {
+        transactionDate: "asc",
+      },
+    ],
+  })
+  if (transactionsDebit.length > 0) {
+    let allDates: Array<any> = transactionsDebit.map((module) => {
+      return module.transactionDate!.toISOString().substr(0, 10)
+    })
+
+    const uniqDatesTrans = allDates.filter(onlyUnique)
+    uniqDatesTrans.forEach((date, index) => {
+      const epochTime = new Date(date)
+      activityData.push({
+        group: "transactionsDebit",
+        date: epochTime.getTime(),
+        value: itemCounter(allDates, date),
+      })
+    })
+  }
+
+  return { activityData }
 }

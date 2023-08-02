@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import Layout from "src/core/layouts/Layout"
 import { useQuery } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
-import { ClickableTile, Heading, Section, Tile } from "@carbon/react"
+import { ClickableTile, Heading, Section, Tab, TabList, Tile } from "@carbon/react"
 import { Stack } from "carbon-components-react"
 import countActivities from "../core/queries/countActivities"
 import React from "react"
@@ -12,6 +12,7 @@ import { gSSP } from "src/blitz-server"
 import { activityOpts } from "../core/opts"
 
 import "@carbon/charts/styles.css"
+import getBudgetTotals from "src/core/queries/getBudgetTotals"
 
 const CountsActivities = () => {
   const [act] = useQuery(countActivities, null)
@@ -28,13 +29,26 @@ const AddElement = ({ what, blurb }) => {
   )
 }
 
+const BudgetTotals = () => {
+  const [budgetTotal] = useQuery(getBudgetTotals, undefined)
+
+  return (
+    <ClickableTile href={`/budgets`}>
+      <Heading>Budgeted</Heading>
+      <Section>€{budgetTotal.budgets._sum.totalValue}</Section>
+      <Section>{budgetTotal.budgets._sum.totalEmissions} kg CO2</Section>
+    </ClickableTile>
+  )
+}
+
 export const getServerSideProps = gSSP(async () => {
-  const activity = await getActivitySparklineData()
+  const { activityData: activity } = await getActivitySparklineData()
 
   return { props: { activity } }
 })
 
-const Home: BlitzPage = (activity) => {
+const Home: BlitzPage = (activity, transactions) => {
+  console.log(activity)
   return (
     <Layout title="Home">
       <main>
@@ -58,6 +72,9 @@ const Home: BlitzPage = (activity) => {
               </Tile>
             </Stack>
             <Stack orientation="horizontal">
+              <Suspense fallback="Loading...">
+                <BudgetTotals />
+              </Suspense>
               {/* <DonutChart data={data} options={opts}></DonutChart>
               <DonutChart data={data} options={opts}></DonutChart> */}
               {/* <GaugeChart data={gaugeData} options={gaugeOpts}></GaugeChart> */}

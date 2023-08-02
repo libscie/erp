@@ -56,6 +56,13 @@ const NavHeader = () => {
           <HeaderMenuItem href="/add/activity">Activity</HeaderMenuItem>
           <HeaderMenuItem href="/add/budget">Budget</HeaderMenuItem>
           <HeaderMenuItem href="/add/document">Document</HeaderMenuItem>
+          <HeaderMenuItem href="/add/transactions">Transactions</HeaderMenuItem>
+        </HeaderMenu>
+        <HeaderMenu aria-label="View categories in the manager" menuLinkName="View">
+          <HeaderMenuItem href="/activities">Activities</HeaderMenuItem>
+          <HeaderMenuItem href="/budgets">Budgets</HeaderMenuItem>
+          <HeaderMenuItem href="/documents">Documents</HeaderMenuItem>
+          <HeaderMenuItem href="/transactions">Transactions</HeaderMenuItem>
         </HeaderMenu>
       </HeaderNavigation>
       <HeaderGlobalBar>
